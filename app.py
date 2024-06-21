@@ -1,5 +1,4 @@
 from flask import Flask,render_template,request,redirect,url_for
-from flask_login import UserMixin
 from flask_mysqldb import MySQL
 # Initialize the Flask application
 app = Flask(__name__)
