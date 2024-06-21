@@ -3,18 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Best 11 Player </title>
+    <title>Best 11 Player</title>
+    <style>
+        #eagle {
+            width: 80%;
+            height: auto;
+        }
+        #start {
+            background-color: red;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        #start:hover {
+            background-color: darkred;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
    <nav>
         <a href="/">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#achievements">Achievements</a>
+        <a href="#contact">Contact Us</a>
+        <a href="/yourteam">Your team</a>
+        <a href="/profile">profile page</a>
         <a href="/signup">Signup</a>
         <a href="/login">Login</a>
-        <a href="#">about us</a>
-        <a href="#">Acheviments</a>
-        <a href="#">contact us</a>
    </nav>
-    
    
-</body>
+   <div class="container">
+       <section id="about">
+           <h2>About Us</h2>
+           <h3>Welcome to Al Ahly FC Player Selection!</h3>
+            <table>
+                <head>
+                    <tr>
+                        <td><p>At Best 11 Player, our mission is to create an engaging platform for fans of Al Ahly Football Club to interact with their favorite players. Our web application allows users to log in, view the current roster of Al Ahly FC players, and select their top 11 players. Whether you're a die-hard fan or a new supporter, our platform is designed to enhance your connection with the team</p> </td>
+                        <td><img id ='eagle' src="static/images/eagle.png" alt="eagle"></td>
+                    </tr>
+                    <tr>
+                        <td><button id="start">Start your joureny</button></td>
+                    </tr>
+                </head>
+            </table>
+        </section>
+       
+       <section id="achievements">
+           <h2>Achievements</h2>
+            <p>Al Ahly Football Club, known as "The Club of the Century," is one of the most successful football clubs globally. Here is a summary of their most notable achievements</p>
+            <ul>
+                <li>Egyptian Premier League: 42 titles</li>
+                <li>Egyptian Cup: 37 titles</li>
+                <li>Egyptian Super Cup: 11 titles</li>
+                <li>African Champions League: 12 titles</li>
+                <li>African Super Cup: 8 titles</li>                
+            </ul>
+        </section>
+       
+       <section id="contact">
+           <h2>Contact Us</h2>
+           <p>How to get in touch...</p>
+       </section>
+   </div>
+   <script src="{{ url_for('static', filename='script.js') }}"></script></body>
 </html>

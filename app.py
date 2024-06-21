@@ -46,6 +46,15 @@ def signup():
         return redirect(url_for('login'))
     # If it's a GET request or the registration failed, show the registration form again
     return render_template('signup.html')
+@app.route('/yourteam')
+def yourteam():
+    return render_template('yourteam.html')
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+@app.route('/favicon.ico')
 
+def favicon():
+    return ('', 204)
 if __name__ == '__main__':
     app.run(debug=True)
