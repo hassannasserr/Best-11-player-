@@ -1,0 +1,53 @@
+body {
+    background-color: #FFF; /* White background */
+    color: #D32F2F; /* Red text color */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+form {
+    background-color: #FFF; /* White background for the form */
+    border: 2px solid #D32F2F; /* Red border */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-width: 400px; /* Ensures form is not too wide on larger screens */
+    width: 100%; /* Responsive width */
+}
+input[type="email"], input[type="text"], input[type="password"] {
+    margin-bottom: 15px;
+    width: calc(100% - 22px); /* Full width minus padding and border */
+    padding: 10px;
+    border: 1px solid #D32F2F; /* Red border */
+    border-radius: 3px;
+    color: #D32F2F; /* Red text color */
+    background-color: #FFF; /* White background */
+}
+input[type="email"]:focus, input[type="text"]:focus, input[type="password"]:focus {
+    outline: none;
+    border-color: #B71C1C; /* Darker red for focus */
+    box-shadow: 0 0 5px rgba(215, 25, 32, 0.5); /* Soft red glow */
+}
+input[type="submit"] {
+    background-color: #D32F2F; /* Red background */
+    color: #FFF; /* White text */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold; /* Makes the button text slightly bolder */
+}
+input[type="submit"]:hover {
+    background-color: #B71C1C; /* Darker red on hover */
+}
+a {
+    color: #D32F2F; /* Red link color */
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline; /* Adds underline on hover for better accessibility */
+}

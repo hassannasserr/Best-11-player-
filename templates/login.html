@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="static\style.css"> <!-- Link to your CSS file -->
+
 </head>
 <body>
-<h1>Log in</h1>
-    <form action="">
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email">
+    <h1>Login</h1>
+    <a href="/signup">Don't have an account ?Signup</a><br>
+    <form action="/login" method="post">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username">
         <label for="password">Password</label>
         <input type="password" name="password" id="password">
-        <button type="submit">Log in</button>
+        <button type="submit">Login</button>
     </form>
+    <br>
+    <br>
 </body>
 </html>
