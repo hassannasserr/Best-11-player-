@@ -6,22 +6,53 @@
     <title>Best 11 Player</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <style>
-    .profile {
+  /* Profile Section Styles */
+.profile {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    padding: 20px;
+    margin-top: 20px;
 }
 
-.profile-pic img {
+.profile-pic {
+    position: relative;
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    margin-right: 20px;
+    overflow: hidden;
 }
 
-.profile-info h2, .profile-info p {
-    margin: 0;
-    padding: 5px;
+.profile-pic img {
+    width: 100%;
+    height: auto;
+}
+
+form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="file"] {
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
 </style>
 </head>
@@ -37,14 +68,29 @@
    </nav>
    <section id="userProfile" class="profile">
     <div class="profile-pic">
-        <img src="path/to/default-profile-pic.jpg" alt="Profile Picture" id="profilePic">
+        <img src="static/images/ima.png" alt="Profile Picture" id="profilePic">
+        <!-- Form to upload profile picture -->
+        <form action="/upload-profile-photo" method="post" enctype="multipart/form-data">
+            <input type="file" id="imageInput" name="profile_photo" accept="image/*">
+            <button type="submit">Upload Photo</button>
+        </form>
     </div>
     <div class="profile-info">
-        <h2 id="fullName">Full Name</h2>
-        <p><strong>Username:</strong> <span id="userName">username</span></p>
-        <p><strong>Email:</strong> <span id="email">email@example.com</span></p>
-        <p><strong>ID:</strong> <span id="userId">123456</span></p>
+        <h2 id="fullName">{{ session.get('full_name', 'Full Name') }}</h2>
+        <p><strong>Username:</strong> <span id="userName">{{ session.get('user_name', 'username') }}</span></p>
+        <p><strong>Email:</strong> <span id="email">{{ session.get('email', 'email@example.com') }}</span></p>
+        <p><strong>ID:</strong> <span id="userId">{{ session.get('user_id', '123456') }}</span></p>
     </div>
 </section>
+<script>
+    document.getElementById('imageInput').addEventListener('change', function(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('profilePic');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+</script>
 </body>
 </html>

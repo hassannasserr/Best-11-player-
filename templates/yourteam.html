@@ -5,7 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Best 11 Player</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>#players-container {
+    display: flex;
+    justify-content: space-around; /* Adjust as needed for spacing */
+    align-items: center;
+    flex-wrap: wrap; /* Allows wrapping if the container is too narrow */
+}
 
+.player {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+.player-photo {
+    width: 60px; /* Adjust size as needed */
+    height: 60px; /* Adjust size as needed */
+    border-radius: 50%; /* Circular photos */
+    margin-right: 10px;
+}
+
+.player-name, .player-jersey {
+    margin-right: 10px;
+}
+
+button {
+    padding: 5px 10px;
+    cursor: pointer;
+}</style>
 </head>
 <body>
     <nav>
@@ -17,6 +44,50 @@
         <a href="/signup">Signup</a>
         <a href="/login">Login</a>
    </nav>
-    <h1>select your team</h1>
+    <h1>Select Your Team</h1>
+    <div id="all-players-container">
+        <h2>All Players</h2>
+        <table>
+            {% for player in all_players %}
+                {% if loop.index0 % 5 == 0 %}
+                    {% if not loop.first %}</tr>{% endif %}
+                    <tr>
+                {% endif %}
+                <td>
+                    <div class="player">
+                        <img src="static/images/elahly.jpg" alt="{{ player[0] }}" class="player-photo">
+                        <span class="player-name">{{ player[0] }}</span>
+                        <span class="player-jersey">{{ player[2] }}</span>
+                        <span class="player-position">{{ player[3] }}</span>
+                        <!-- Assuming there's an additional detail in player[4] -->
+                        <span class="player-detail">{{ player[4] }}</span>
+                    </div>
+                </td>
+                {% if loop.last %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+
+<div id="user-team-container">
+    <h2>My Team</h2>
+    {% for player in user_team %}
+    <div class="player">
+        <img src="{{ player[1] }}" alt="{{ player[0] }}" class="player-photo">
+        <span class="player-name">{{ player[0] }}</span>
+        <span class="player-jersey">{{ player[2] }}</span>
+    </div>
+    {% endfor %}
+</div>
+    
+    <script>
+        // Example function for 'Edit' button click
+        function editPlayer(playerName) {
+            console.log("Edit player:", playerName);
+            // Implement the edit functionality here
+            // This could involve displaying a form with the player's details pre-filled for editing
+        }
+    </script>
 </body>
 </html>
