@@ -10,7 +10,9 @@ body {
     align-items: center;
     height: 100vh;
 }
-
+section:first-of-type {
+    margin-top: 500px; /* Adjust the value as needed to create the desired space */
+}
 nav {
     position: absolute; /* Change to absolute to keep it at the top */
     top: 0;
@@ -93,8 +95,80 @@ section {
 .container {
     width: 80%;
     margin: auto;
-    overflow: hidden;
+    overflow: visible; /* Adjusted to ensure content is not hidden */
+}
+
+section {
+    padding: 20px;
+    margin: 20px 0;
+    background-color: #e6e6e6; /* Ensures contrast */
+    border-left: 5px solid darkred; /* Visual distinction */
+    color: #333; /* Readability */
+    overflow: auto; /* Ensures all content can be scrolled to if it overflows */
 }
 h2 {
     color: red;
+}
+footer {
+    background-color: #D32F2F; /* Red background for bold contrast */
+    color: #FFF; /* White text for readability */
+    text-align: center; /* Center-align the text */
+    padding: 20px 0; /* 20px vertical padding, 0 horizontal */
+    width: 100%; /* Ensure it spans the full width */
+    /* Removed position: fixed; to allow natural flow at the bottom */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Consistent font styling */
+    font-weight: 500; /* Slightly bolder text for emphasis */
+    font-size: 16px; /* Slightly larger font size for better readability */
+}
+
+
+footer a:hover {
+    text-decoration: underline; /* Underline on hover for better interaction */
+}
+.profile-info h2, .profile-info p {
+    color: #333; /* Dark text for readability */
+}
+
+.profile-info strong {
+    color: red; /* Blue color for emphasis */
+}
+.profile {
+    background-color: #ffffff; /* White background for the profile section */
+    border: 1px solid #ddd; /* Light border for subtle separation */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px;
+    position: absolute;
+    top: -250px; /* Adjust as needed */
+    left: 450px;
+    right: 0;
+    margin-top: 0; /* Space from the top */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Soft shadow for depth */
+    width: 90%; /* Responsive width */
+    max-width: 600px; /* Maximum width */
+    border-color: #D32F2F;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid red; /* Blue border around the profile picture */
+}
+
+.profile-pic img {
+    width: 100%;
+    height: auto;
+}
+#first{
+    margin-left: 500px;
+}
+#logo{
+    margin-left: -50px;
+    font-family: 'Arial', sans-serif; /* Change the font */
+    transition: transform 0.3s ease;
+    font-weight: bold; /* Smooth transition for transform */
+}
+#logo:hover {
+    transform: scale(1.1); /* Make the logo 10% bigger on hover */
 }
