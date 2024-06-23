@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, sen
 from flask_mysqldb import MySQL
 from werkzeug.utils import secure_filename
 from flask import session
+from flask_mail import Mail, Message
+from email.message import EmailMessage  # Add this import statement
 import os
 # Initialize the Flask application
 app = Flask(__name__)
@@ -13,7 +15,15 @@ app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'flaskdb'
 mysql = MySQL(app)
 
-# Now, initialize SQLAlchemy with the app
+mail = Mail(app)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'elahlysportingclub@gmail.com'
+app.config['MAIL_PASSWORD'] = 'zpkvbtfvdhokyfpn'
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+
+
 
 @app.route('/')
 def index():
@@ -25,7 +35,8 @@ def login():
         # Extract form data
         username = request.form['username']
         password = request.form['password']
-      
+        if not username or not password:
+            return render_template('login.html', error="You need to enter both a username and a password.")
         cur = mysql.connection.cursor()
         # i want to get the user id and name to display in the profile page
 
@@ -50,12 +61,25 @@ def signup():
         Name = request.form['name']
         password = request.form['password']
         cur=mysql.connection.cursor()
-        cur.execute("INSERT INTO users (UserName, Email, Name, Password) VALUES (%s, %s, %s, %s)", (username, email, Name, password))
-        mysql.connection.commit()
-        cur.close()
-        return redirect(url_for('login'))
+        if not username or not email or not Name or not password:
+            return render_template('signup.html', error="You need to enter all the required fields.")
+        cur.execute("SELECT * FROM users WHERE username = %s", (username,))
+        user = cur.fetchone()
+        if user:
+            return render_template('signup.html', error="The username is already taken.")
+        cur.execute("SELECT * FROM users WHERE email = %s", (email,))
+        user1 = cur.fetchone()
+        if user1:
+            return render_template('signup.html', error="The email is already taken.")
+        else:
+            cur.execute("INSERT INTO users (UserName, Email, Name, Password) VALUES (%s, %s, %s, %s)", (username, email, Name, password))
+            mysql.connection.commit()
+            cur.close()
+            return redirect(url_for('login'))
     # If it's a GET request or the registration failed, show the registration form again
     return render_template('signup.html')
+
+
 @app.route('/yourteam')
 def yourteam():
     cur=mysql.connection.cursor()
@@ -63,17 +87,53 @@ def yourteam():
     all_players = cur.fetchall()  # Fetches all rows of a query result
     return render_template('yourteam.html', all_players=all_players)
 
+
 @app.route('/myteam')
 def yourteam_user():
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT Name, JerseyNumber, Position, PlayerID FROM players WHERE PlayerID IN (SELECT PlayerID FROM userselections WHERE UserID = %s)", (session['user_id'],))
-    user_team = cur.fetchall()
-    if not user_team:
-        flash('You have not selected any players yet!')
-        cur.close()  # Ensure the cursor is closed even if an error occurs
-        print(user_team)
-        
-    return render_template('myteam.html', user_team=user_team)
+    if 'user_id' not in session:
+        return render_template('myteam.html', error="You need to login to view your team.")
+    else:
+        cur = mysql.connection.cursor()
+        try:
+            cur.execute("SELECT Name, JerseyNumber, Position, PlayerID FROM players WHERE PlayerID IN (SELECT PlayerID FROM userselections WHERE UserID = %s)", (session['user_id'],))
+            user_team = cur.fetchall()
+        finally:
+            cur.close()
+        return render_template('myteam.html', user_team=user_team)
+    
+    # Safety net: return a generic response if none of the above conditions are met
+
+   
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    session.pop('email', None)
+    session.pop('full_name', None)
+    session.pop('user_name', None)
+    return redirect(url_for('index'))        
+    
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    player_ids = request.form.getlist('selected_players[]')  # Adjusted to handle multiple selections
+    if not player_ids:
+        flash("You need to select at least one player to delete.", "error")  # Use flash for error messages
+        return redirect(url_for('yourteam_user'))
+    else:
+        cur = mysql.connection.cursor()
+        try:
+            # Use executemany or loop through player_ids to delete multiple
+            query = "DELETE FROM userselections WHERE PlayerID = %s AND UserID = %s"
+            # Prepare a list of tuples for each player_id to delete
+            values = [(player_id, session['user_id']) for player_id in player_ids]
+            cur.executemany(query, values)
+            mysql.connection.commit()
+        except Exception as e:
+            flash(f"An error occurred: {e}", "error")  # Flash any exception as an error message
+        finally:
+            cur.close()
+        flash("Selected players were successfully deleted.", "success")  # Success message
+        return redirect(url_for('yourteam_user'))
 
 
 @app.route('/profile')
@@ -93,9 +153,12 @@ def submit_selected_players():
         # Handle non-POST requests here. For example:
         return "Method Not Allowed", 405
 
+
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+
 @app.route('/upload-profile-photo', methods=['POST'])
 def upload_profile_photo():
     if 'profile_photo' not in request.files:
@@ -107,5 +170,22 @@ def upload_profile_photo():
         filename = secure_filename(file.filename)
         file.save(os.path.join('static/images/', filename))
         return redirect(url_for('profile'))  # Redirect to the profile page or wherever appropriate
+
+@app.route('/contact', methods=['POST'])
+def send_email():
+    if request.method == 'POST':
+        email = request.form['email']
+        name = request.form['name']
+        message = request.form['message']
+        if not email or not name or not message:
+            return render_template('index.html', error="You need to enter all the required fields.")
+        cur=mysql.connection.cursor()
+        cur.execute("insert into messages (Email, Name, Message) values (%s, %s, %s)", (email, name, message))
+        mysql.connection.commit()
+        cur.close()
+        flash("Your message has been sent successfully.", "success")  # 'success' is a category, you can customize it
+# Then redirect without the error argument
+        return redirect(url_for('index'))  # Assuming 'index' is the view function for the homepage
+
 if __name__ == '__main__':
     app.run(debug=True)

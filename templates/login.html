@@ -14,6 +14,11 @@
         <a href="/">Contact Us</a>
    </nav>
    <div class="form-container">
+   <br>
+    {% if error %}
+    <p>{{ error }}</p>
+    {% endif %}
+<br>
     <a href="/signup">Don't have an account ?Signup</a><br>
     <form action="/login" method="post">
         <label for="username">Username</label>

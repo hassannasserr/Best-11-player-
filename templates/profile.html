@@ -16,7 +16,8 @@
         <a href="#about">About Us</a>
         <a href="#achievements">Achievements</a>
         <a href="#contact">Contact Us</a>
-        <a href="/yourteam">Your team</a>
+        <a href="/yourteam">Select team</a>
+        <a href="/myteam">My players</a>
         <a href="/profile">profile page</a>
         <a href="/signup">Signup</a>
         <a href="/login">Login</a>
@@ -35,6 +36,9 @@
         <p><strong>Username:</strong> <span id="userName">{{ session.get('user_name', 'username') }}</span></p>
         <p><strong>Email:</strong> <span id="email">{{ session.get('email', 'email@example.com') }}</span></p>
         <p><strong>ID:</strong> <span id="userId">{{ session.get('user_id', '123456') }}</span></p>
+        <form action="/logout">
+            <input type="submit" value="Logout" class="button >">
+        </form>
     </div>
 </section>
 <script>

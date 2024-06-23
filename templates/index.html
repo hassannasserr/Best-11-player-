@@ -70,7 +70,14 @@
         </section>
        
        <section id="contact">
-           <h2>Contact Us</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+        <h2>Contact Us</h2>
            <p>How to get in touch...</p>
               <form action="/contact" method="POST">
                 <label for="name">Name:</label>

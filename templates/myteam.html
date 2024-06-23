@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Best 11 Player</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<style>#players-container {
-    display: flex;
-    justify-content: space-around; /* Adjust as needed for spacing */
-    align-items: center;
-    flex-wrap: wrap; /* Allows wrapping if the container is too narrow */
-}
+<style>
 
 .player {
     display: flex;
@@ -28,7 +23,27 @@
 .player-name, .player-jersey {
     margin-right: 10px;
 }
+#all-players-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    margin-top: 400px; /* Adjusted to move up */
+    padding: 20px;
+    background-color: #f5f5f5; /* Light grey background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
 
+#all-players-container form {
+    margin-top: 10px;
+    width: 80%;
+    max-width: 680px; /* Max width for the form */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive grid */
+    gap: 15px; /* Space between grid items */
+    padding: 15px;
+}
 
 button {
     padding: 5px 10px;
@@ -42,38 +57,48 @@ button {
         <a href="#about">About Us</a>
         <a href="#achievements">Achievements</a>
         <a href="#contact">Contact Us</a>
-        <a href="/yourteam">Your team</a>
+        <a href="/yourteam">Select team</a>
+        <a href="/myteam">My players</a>
         <a href="/profile">profile page</a>
         <a href="/signup">Signup</a>
         <a href="/login">Login</a>
    </nav>
-
-    <h1>My Team</h1>
-<div id="user-team-container">
-    <h2>My Selected Players</h2>
-    <p id="error"></p>
-    <table>
-        {% for player in user_team %}
-            {% if loop.index0 % 5 == 0 %}
-                {% if not loop.first %}</tr>{% endif %}
-                <tr>
-            {% endif %}
-            <td>
-                <div class="player">
-                    <img src="static/images/elahly.jpg" alt="{{ player[0] }}" class="player-photo">
-                    <span class="player-name">{{ player[0] }}</span>
-                    <span class="player-jersey">{{ player[1] }}</span>
-                    <span class="player-position">{{ player[2] }}</span>
-                    <!-- Removed player-detail as there's no fifth attribute in the fetched data -->
-                </div>
-            </td>
-            {% if loop.last %}
-                </tr>
-            {% endif %}
-        {% endfor %}
-    </table>
-</div>
-    
+   <div id="all-players-container">
+    <h1>My Team</h1>   
+     {{error}}
+     {% with messages = get_flashed_messages(with_categories=true) %}
+     {% if messages %}
+       {% for category, message in messages %}
+         <div class="alert alert-{{ category }}">{{ message }}</div>
+       {% endfor %}
+     {% endif %}
+   {% endwith %}
+    <form action='/delete' method="post">
+           <table>
+               {% for player in user_team %}
+                   {% if loop.index0 % 4 == 0 %}
+                       {% if not loop.first %}</tr>{% endif %}
+                       <tr>
+                   {% endif %}
+                   <td>
+                       <div class="player">
+                           <img src="static/images/elahly.jpg" alt="{{ player[0] }}" class="player-photo">
+                           <span class="player-name">{{ player[0] }}</span>
+                           <span class="player-jersey">{{ player[1] }}</span>
+                           <span class="player-position">{{ player[2] }}</span>
+                           <!-- Checkbox for selecting the player, using PlayerID as the value -->
+                           <input type="checkbox" name="selected_players[]" value="{{ player[3] }}">
+                       </div>
+                   </td>
+                   {% if loop.last %}
+                       </tr>
+                   {% endif %}
+               {% endfor %}
+           </table>
+           <!-- Submit button to send the selected players' IDs -->
+           <button type="submit">Delete</button>
+       </form>
+   </div>
     <script>
         // Example function for 'Edit' button click
         function editPlayer(playerName) {

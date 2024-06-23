@@ -11,7 +11,7 @@ body {
     height: 100vh;
 }
 section:first-of-type {
-    margin-top: 500px; /* Adjust the value as needed to create the desired space */
+    margin-top: 600px; /* Adjust the value as needed to create the desired space */
 }
 nav {
     position: absolute; /* Change to absolute to keep it at the top */
@@ -161,7 +161,7 @@ footer a:hover {
     height: auto;
 }
 #first{
-    margin-left: 500px;
+    margin-left: 300px;
 }
 #logo{
     margin-left: -50px;
@@ -249,7 +249,7 @@ footer a:hover {
 
 button[type="submit"] {
     padding: 10px 20px;
-    background-color: #007bff; /* Bootstrap primary blue */
+    background-color: red; /* Bootstrap primary blue */
     color: white;
     border: none;
     border-radius: 4px;
@@ -259,58 +259,5 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
-#user-team-container {
-    background-color: #f8f9fa; /* Light grey background for contrast */
-    border: 1px solid #dee2e6; /* Subtle border */
-    border-radius: 8px; /* Rounded corners */
-    padding: 20px; /* Spacing inside the container */
-    margin: 20px 0; /* Spacing outside the container */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Soft shadow for depth */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern, readable font */
-}
-
-#user-team-container h2 {
-    color: #343a40; /* Dark grey color for headings */
-    margin-bottom: 15px; /* Spacing below the heading */
-    border-bottom: 2px solid #007bff; /* Accent line under heading */
-    padding-bottom: 5px; /* Spacing between heading text and accent line */
-}
-
-#user-team-container table {
-    width: 100%; /* Full width of the container */
-    border-collapse: collapse; /* Removes space between borders */
-    margin-top: 15px; /* Spacing above the table */
-}
-
-#user-team-container td, #user-team-container th {
-    border: 1px solid #dee2e6; /* Subtle border for table cells */
-    padding: 8px; /* Spacing inside table cells */
-    text-align: left; /* Aligns text to the left */
-}
-
-#user-team-container tr:nth-child(even) {
-    background-color: #e9ecef; /* Zebra striping for rows */
-}
-
-#user-team-container tr:hover {
-    background-color: #dfe2e5; /* Hover effect for rows */
-}
-
-#user-team-container .player-photo {
-    width: 100px; /* Fixed width for player photos */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 50%; /* Circular photos */
-    margin-bottom: 10px; /* Spacing below photos */
-}
-
-#user-team-container .player-name {
-    font-weight: bold; /* Makes player name bold */
-    color: #495057; /* Slightly darker text for emphasis */
-}
-
-#user-team-container .player-jersey, #user-team-container .player-position {
-    color: #6c757d; /* Muted color for less important details */
-    font-size: 0.9rem; /* Slightly smaller font size */
+    background-color: #D32F2F; /* Darker blue on hover */
 }
