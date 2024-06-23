@@ -172,3 +172,145 @@ footer a:hover {
 #logo:hover {
     transform: scale(1.1); /* Make the logo 10% bigger on hover */
 }
+#all-players-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    margin-top: 800px;
+    padding: 20px;
+    background-color: #f5f5f5; /* Light grey background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+#all-players-container h2 {
+    color: #333; /* Dark grey color for text */
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#all-players-container form {
+    width: 100%;
+    max-width: 800px; /* Max width for the form */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive grid */
+    gap: 15px; /* Space between grid items */
+    padding: 15px;
+}
+#all-players-container form button[type="submit"] {
+    grid-column: 1 / -1; /* Makes the button span all columns */
+    margin-top: 20px; /* Adds space above the submit button */
+    padding: 10px 20px;
+    background-color: red; /* Example button color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    justify-self: start; 
+    transition: background-color 0.3s, padding 0.3s; /* Smooth transition for background color and padding */
+    /* Aligns the button to the start of the grid row */
+}
+#all-players-container form button[type="submit"]:hover {
+    background-color: darkred; /* Color changes on hover */
+    padding: 15px 25px; /* Increased padding to make the button larger */
+}
+#all-players-container form .submit-button-wrapper {
+    grid-column: span 2; /* Or span 1, depending on how you want it to fit into the grid */
+    display: flex;
+    justify-content: flex-start; /* Aligns the button to the start (left) */
+}
+.player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background-color: white; /* White background for each player */
+    border-radius: 4px; /* Rounded corners for player cards */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow for cards */
+    transition: transform 0.2s; /* Smooth transition for hover effect */
+}
+
+.player:hover {
+    transform: translateY(-5px); /* Slight raise effect on hover */
+}
+
+.player-photo {
+    width: 100px; /* Adjust based on preference */
+    height: 100px; /* Adjust based on preference */
+    border-radius: 50%; /* Circular photos */
+    margin-bottom: 10px;
+}
+
+.player-name, .player-jersey, .player-position, .player-detail {
+    text-align: center;
+    margin: 5px 0;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007bff; /* Bootstrap primary blue */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    align-self: center; /* Center the button in the form */
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+#user-team-container {
+    background-color: #f8f9fa; /* Light grey background for contrast */
+    border: 1px solid #dee2e6; /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Spacing inside the container */
+    margin: 20px 0; /* Spacing outside the container */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Soft shadow for depth */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern, readable font */
+}
+
+#user-team-container h2 {
+    color: #343a40; /* Dark grey color for headings */
+    margin-bottom: 15px; /* Spacing below the heading */
+    border-bottom: 2px solid #007bff; /* Accent line under heading */
+    padding-bottom: 5px; /* Spacing between heading text and accent line */
+}
+
+#user-team-container table {
+    width: 100%; /* Full width of the container */
+    border-collapse: collapse; /* Removes space between borders */
+    margin-top: 15px; /* Spacing above the table */
+}
+
+#user-team-container td, #user-team-container th {
+    border: 1px solid #dee2e6; /* Subtle border for table cells */
+    padding: 8px; /* Spacing inside table cells */
+    text-align: left; /* Aligns text to the left */
+}
+
+#user-team-container tr:nth-child(even) {
+    background-color: #e9ecef; /* Zebra striping for rows */
+}
+
+#user-team-container tr:hover {
+    background-color: #dfe2e5; /* Hover effect for rows */
+}
+
+#user-team-container .player-photo {
+    width: 100px; /* Fixed width for player photos */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 50%; /* Circular photos */
+    margin-bottom: 10px; /* Spacing below photos */
+}
+
+#user-team-container .player-name {
+    font-weight: bold; /* Makes player name bold */
+    color: #495057; /* Slightly darker text for emphasis */
+}
+
+#user-team-container .player-jersey, #user-team-container .player-position {
+    color: #6c757d; /* Muted color for less important details */
+    font-size: 0.9rem; /* Slightly smaller font size */
+}

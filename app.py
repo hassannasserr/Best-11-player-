@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,redirect,url_for
+from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory
 from flask_mysqldb import MySQL
 from werkzeug.utils import secure_filename
 from flask import session
@@ -37,6 +37,7 @@ def login():
            session['email'] = user[1]
            session['full_name'] = user[4]
            session['user_name'] = user[2]
+        
            return redirect(url_for('index'))
     # If it's a GET request or the login failed, show the login form again
     return render_template('login.html')   
@@ -58,17 +59,43 @@ def signup():
 @app.route('/yourteam')
 def yourteam():
     cur=mysql.connection.cursor()
-    cur.execute("SELECT Name, JerseyNumber, Position FROM players")
+    cur.execute("SELECT Name, JerseyNumber, Position,PlayerID FROM players")
     all_players = cur.fetchall()  # Fetches all rows of a query result
-
     return render_template('yourteam.html', all_players=all_players)
+
+@app.route('/myteam')
+def yourteam_user():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT Name, JerseyNumber, Position, PlayerID FROM players WHERE PlayerID IN (SELECT PlayerID FROM userselections WHERE UserID = %s)", (session['user_id'],))
+    user_team = cur.fetchall()
+    if not user_team:
+        flash('You have not selected any players yet!')
+        cur.close()  # Ensure the cursor is closed even if an error occurs
+        print(user_team)
+        
+    return render_template('myteam.html', user_team=user_team)
+
+
 @app.route('/profile')
 def profile():
     return render_template('profile.html')
-@app.route('/favicon.ico')
+@app.route('/submit_selected_players', methods=['POST'])
+def submit_selected_players():
+    if request.method == 'POST':
+        selected_players = request.form.getlist('selected_players')
+        cur = mysql.connection.cursor()
+        for player in selected_players:
+            cur.execute("INSERT INTO userselections (PlayerID, UserID) VALUES (%s, %s)", (player, session['user_id']))
+        mysql.connection.commit()
+        cur.close()
+        return redirect(url_for('yourteam'))
+    else:
+        # Handle non-POST requests here. For example:
+        return "Method Not Allowed", 405
 
+@app.route('/favicon.ico')
 def favicon():
-    return ('', 204)
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 @app.route('/upload-profile-photo', methods=['POST'])
 def upload_profile_photo():
     if 'profile_photo' not in request.files:

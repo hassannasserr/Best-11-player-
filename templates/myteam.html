@@ -47,13 +47,13 @@ button {
         <a href="/signup">Signup</a>
         <a href="/login">Login</a>
    </nav>
-    <h1>Select Your Team</h1>
-    <div id="all-players-container">
-        <h2>All Players</h2>
-       <p id="error"></p>
-        <form action="/submit_selected_players" method="post">
+
+    <h1>My Team</h1>
+<div id="user-team-container">
+    <h2>My Selected Players</h2>
+    <p id="error"></p>
     <table>
-        {% for player in all_players %}
+        {% for player in user_team %}
             {% if loop.index0 % 5 == 0 %}
                 {% if not loop.first %}</tr>{% endif %}
                 <tr>
@@ -62,13 +62,9 @@ button {
                 <div class="player">
                     <img src="static/images/elahly.jpg" alt="{{ player[0] }}" class="player-photo">
                     <span class="player-name">{{ player[0] }}</span>
-                    <span class="player-jersey">{{ player[2] }}</span>
-                    <span class="player-position">{{ player[3] }}</span>
-                    <span class="player-detail">{{ player[4] }}</span>
-                    <!-- Checkbox for selecting the player, assuming player[1] is the PlayerID -->
-                    <div class="submit-button-wrapper">
-                    <input type="checkbox" name="selected_players" value="{{ player[3] }}">
-                </div>
+                    <span class="player-jersey">{{ player[1] }}</span>
+                    <span class="player-position">{{ player[2] }}</span>
+                    <!-- Removed player-detail as there's no fifth attribute in the fetched data -->
                 </div>
             </td>
             {% if loop.last %}
@@ -76,12 +72,7 @@ button {
             {% endif %}
         {% endfor %}
     </table>
-    <!-- Submit button -->
-    <button type="submit">Submit</button>
-</form>
-    </div>
-
-   
+</div>
     
     <script>
         // Example function for 'Edit' button click
