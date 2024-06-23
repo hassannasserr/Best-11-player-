@@ -187,5 +187,27 @@ def send_email():
 # Then redirect without the error argument
         return redirect(url_for('index'))  # Assuming 'index' is the view function for the homepage
 
+@app.route('/change-password', methods=['POST'])
+def change_password():
+    if request.method == 'POST':
+        old_password = request.form['current_password']
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+        if not old_password or not new_password or not confirm_password:
+            return render_template('profile.html', error="You need to enter all the required fields.")
+        if new_password != confirm_password:
+            return render_template('profile.html', error="The new password and confirm password do not match.")
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM users WHERE ID = %s AND Password = %s", (session['user_id'], old_password))
+        user = cur.fetchone()
+        if not user:
+            return render_template('profile.html', error="The old password is incorrect.")
+        cur.execute("UPDATE users SET Password = %s WHERE ID = %s", (new_password, session['user_id']))
+        mysql.connection.commit()
+        cur.close()
+        flash("Your password has been changed successfully.", "success")
+        return redirect(url_for('profile'))
+
+    return render_template('profile.html')
 if __name__ == '__main__':
     app.run(debug=True)
