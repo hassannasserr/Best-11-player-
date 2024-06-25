@@ -41,6 +41,8 @@ def login():
         # i want to get the user id and name to display in the profile page
 
         cur.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username, password))
+        if not cur.rowcount:
+            return render_template('login.html', error="The username or password is incorrect.")
         user = cur.fetchone()
         cur.close()
         if user:
@@ -142,12 +144,15 @@ def profile():
 @app.route('/submit_selected_players', methods=['POST'])
 def submit_selected_players():
     if request.method == 'POST':
+        if 'user_id' not in session:
+            return render_template('yourteam.html', error="You need to login to select players.")
         selected_players = request.form.getlist('selected_players')
         cur = mysql.connection.cursor()
         for player in selected_players:
             cur.execute("INSERT INTO userselections (PlayerID, UserID) VALUES (%s, %s)", (player, session['user_id']))
         mysql.connection.commit()
         cur.close()
+        flash("Players have been added successfully", "success")  # 'success' is a category, you can customize it
         return redirect(url_for('yourteam'))
     else:
         # Handle non-POST requests here. For example:
@@ -190,6 +195,8 @@ def send_email():
 @app.route('/change-password', methods=['POST'])
 def change_password():
     if request.method == 'POST':
+        if 'user_id' not in session:
+            return render_template('profile.html', error="You need to login to change your password.")
         old_password = request.form['current_password']
         new_password = request.form['new_password']
         confirm_password = request.form['confirm_password']
