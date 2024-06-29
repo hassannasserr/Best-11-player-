@@ -2,8 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for, flash, sen
 from flask_mysqldb import MySQL
 from werkzeug.utils import secure_filename
 from flask import session
-from flask_mail import Mail, Message
-from email.message import EmailMessage  # Add this import statement
 import os
 # Initialize the Flask application
 app = Flask(__name__)
@@ -14,15 +12,6 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'flaskdb'
 mysql = MySQL(app)
-
-mail = Mail(app)
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'elahlysportingclub@gmail.com'
-app.config['MAIL_PASSWORD'] = 'zpkvbtfvdhokyfpn'
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
-
 
 
 @app.route('/')
